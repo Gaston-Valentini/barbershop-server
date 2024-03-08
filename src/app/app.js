@@ -15,7 +15,7 @@ app.set("PLACE_NAME", process.env.PLACE_NAME);
 app.use(cors());
 
 // Router
-app.use("/", router);
+app.use("/api", router);
 
 // Export
 export { app };

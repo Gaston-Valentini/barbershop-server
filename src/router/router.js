@@ -3,6 +3,6 @@ import { getReviews } from "../controllers/controllers.js";
 
 const router = Router();
 
-router.get("/api", getReviews);
+router.get("/getReviews", getReviews);
 
 export { router };
