@@ -21,32 +21,23 @@ try {
 
 app.get("/reviews", (req, res) => {
     const apiKey = process.env.GOOGLE_API_KEY;
-    const placeName = process.env.PLACE_NAME;
+    const placeId = process.env.PLACE_ID;
 
     try {
-        fetch(`https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=${placeName}&inputtype=textquery&fields=place_id&key=${apiKey}`)
+        fetch(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&key=${apiKey}`)
             .then((response) => response.json())
             .then((data) => {
-                const placeId = data.candidates[0].place_id;
-
-                fetch(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&key=${apiKey}`)
-                    .then((response) => response.json())
-                    .then((data) => {
-                        return res.status(200).json({
-                            success: true,
-                            data: data.result.reviews,
-                        });
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                        return res.status(500).json({
-                            success: false,
-                            message: "Internal server error",
-                        });
-                    });
+                return res.status(200).json({
+                    success: true,
+                    data: data.result.reviews,
+                });
             })
             .catch((error) => {
                 console.log(error);
+                return res.status(500).json({
+                    success: false,
+                    message: "Internal server error",
+                });
             });
     } catch (error) {
         console.log(error);
